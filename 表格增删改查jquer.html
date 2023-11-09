@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../jquery.min.js"></script>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .box {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        background-color: #cacaca;
+    }
+
+    table {
+        width: 1500px;
+        border-collapse: collapse;
+        background: rgba(0, 0, 0, 0.7);
+    }
+
+    thead {
+        color: antiquewhite;
+    }
+
+    tbody {
+        text-align: center;
+        color: rgb(255, 255, 255);
+    }
+
+    tbody button {
+        width: 50px;
+        height: 25px;
+        margin: 5px;
+        border-radius: 5px;
+        border: none;
+        background-color: transparent;
+    }
+
+    .shan {
+        border: 1px solid red;
+        color: red;
+    }
+
+    .bian {
+        border: 1px solid rgb(0, 162, 255);
+        color: rgb(0, 162, 255);
+    }
+
+    .shan:hover {
+        color: rgb(255, 255, 255);
+        background-color: rgb(255, 0, 0);
+    }
+
+    .bian:hover {
+        color: rgb(255, 255, 255);
+        background-color: rgb(0, 162, 255);
+    }
+
+    .he {
+        width: 1500px;
+        /* height: 500px; */
+        border: 1px solid rgb(255, 255, 255);
+        margin: auto;
+        background: rgba(0, 0, 0, 0.7);
+    }
+
+    .ansou {
+        width: 80px;
+        height: 25px;
+        margin: 10px;
+        border-radius: 5px;
+        border: none;
+        color: antiquewhite;
+        background-color: cornflowerblue;
+    }
+
+    .popup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+    }
+
+    .popup-content {
+        width: 500px;
+        /* height: 300px; */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 20px;
+        border: 2px solid #000000;
+    }
+
+    .popup1 {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+    }
+
+    .popup1-content {
+        width: 500px;
+        /* height: 300px; */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 20px;
+        border: 2px solid #000000;
+    }
+
+    .close {
+        float: right;
+        font-size: 20px;
+    }
+
+    .close:hover {
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        border: 1px solid black;
+        border-radius: 50px;
+    }
+
+    .biaodan {
+        width: 100%;
+        height: 100%;
+    }
+
+    .biaodan button {
+        width: 60px;
+        height: 23px;
+        background-color: bisque;
+        border: none;
+        border-radius: 10px;
+    }
+
+    img {
+        width: 80px;
+        height: 80px;
+        margin: 10px;
+    }
+</style>
+
+<body>
+    <div class="box">
+        <div class="he">
+            <h2 style="text-align: center; color: antiquewhite;">歌曲列表</h2>
+            <button class="ansou" id="addtian">添加搜索</button>
+            <div id="popup" class="popup">
+                <div class="popup-content">
+                    <span class="close" id="closeButton">×</span>
+                    <div class="biaodan">
+                        <h2>添加搜索</h2><br>
+                        <p>&emsp;<input type="text" placeholder="名字搜索" id="kuang"> <button id="sou">搜索</button></p><br>
+                        <p>&emsp;姓名: <input type="text" id="names"></p><br>
+                        <p>&emsp;年龄: <input type="text" id="age"></p><br>
+                        <p>&emsp;性别: <input type="text" id="ode"></p><br>
+                        <button id="addtianjia">添加</button>
+                    </div>
+                </div>
+            </div>
+            <!-- 修改弹窗 -->
+            <div id="popup1" class="popup1">
+                <div class="popup1-content">
+                    <span class="close" id="closeButtonc">×</span>
+                    <div class="biaodan">
+                        <h2>修改信息</h2><br>
+                        <p>&emsp;姓名: <input type="text" id="name-bianji"></p><br>
+                        <p>&emsp;年龄: <input type="text" id="age-bianji"></p><br>
+                        <p>&emsp;性别: <input type="text" id="ode-bianji"></p><br>
+                        <button id="baocun">保存</button>
+                    </div>
+                </div>
+            </div>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>姓名</th>
+                        <th>年龄</th>
+                        <th>性别</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <script>
+        var index;
+        $(function () {
+            // 渲染
+            xuanran()
+            $("#addtianjia").on('click', addtianjiafun)
+            // 添加
+            let names = $("#names")
+            let age = $("#age")
+            let ode = $("#ode")
+            // 保存
+            $("#baocun").on('click', baocunfun)
+            $("#sou").on("click", soufun)
+        })
+        let data = [
+            {
+                name: "张三",
+                age: 18,
+                ode: "男",
+            },
+            {
+                name: "李四",
+                age: 13,
+                ode: "女",
+            },
+            {
+                name: "王五",
+                age: 20,
+                ode: "男",
+            },
+            {
+                name: "赵六",
+                age: 12,
+                ode: "男",
+            },
+            {
+                name: "李丽",
+                age: 25,
+                ode: "女",
+            },
+        ]
+        function soufun() {
+            const searchValue = $('#kuang').val().toLowerCase();
+            const results = data.filter(item => item.name.toLowerCase().includes(searchValue));
+            displayResults(results);
+        }
+
+        function displayResults(results) {
+            const resultsContainer = $('#results');
+            resultsContainer.empty(); // 清空之前的结果
+
+            if (results.length === 0) {
+                resultsContainer.text('未找到匹配项');
+            } else {
+                results.forEach(item => {
+                    const resultItem = $('<div>').text(item.name);
+                    resultsContainer.append(resultItem);
+                });
+            }
+        }
+
+
+
+        // 删除
+        $(document).on('click', 'button.shan', function () {
+            index = $(this).data('index');
+            if (typeof index !== 'undefined') {
+                console.log(index);
+                data.splice(index, 1);
+                xuanran();
+            }
+        });
+        // 回显
+        $(document).on('click', 'button.bian', function () {
+            popup1.style.display = (popup1.style.display === "block") ? "none" : "block";
+            $("#closeButtonc").on("click", function () {
+                popup1.style.display = "none";
+            });
+            index = $(this).data('index');
+            console.log(index);
+            const item = data[index];
+            $("#name-bianji").val(item.name);
+            $("#age-bianji").val(item.age);
+            $("#ode-bianji").val(item.ode);
+        });
+        // 保存
+        function baocunfun() {
+            let names = $("#name-bianji").val();
+            let age = $("#age-bianji").val();
+            let ode = $("#ode-bianji").val();
+            data[index].name = names
+            data[index].age = age
+            data[index].ode = ode
+            xuanran()
+        }
+        // 添加
+        function addtianjiafun() {
+            let tian = {
+                name: names.value,
+                age: age.value,
+                ode: ode.value,
+            }
+            console.log(tian);
+            data.push(tian);
+            xuanran()
+            popup.style.display = "none";
+        }
+        // 渲染
+        function xuanran() {
+            $('tbody').empty();
+            html = ``
+            data.forEach((item, index) => {
+                html += `<tr>
+                        <td>${item.name}</td>
+                        <td>${item.age}</td>
+                        <td>${item.ode}</td>
+                        <td><button class="shan" data-index="${index}">删除</button><button class="bian" data-index="${index}">编辑</button></td>
+                    </tr>`
+            });
+            $('tbody').append(html)
+        }
+        // 弹窗
+        const addtian = document.getElementById('addtian')
+        addtian.addEventListener('click', addtianfun)
+        const closeButton = document.getElementById('closeButton')
+        closeButton.addEventListener('click', closeButtonfun)
+        function addtianfun() {
+            popup.style.display = (popup.style.display === "block") ? "none" : "block";
+        }
+        function closeButtonfun() {
+            popup.style.display = "none"
+        }
+    </script>
+</body>
+
+</html>

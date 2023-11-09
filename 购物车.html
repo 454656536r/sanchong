@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .box {
+        width: 1500px;
+        /* height: 500px; */
+        margin: auto;
+    }
+
+    table {
+        width: 1500px;
+        margin: 10px;
+        text-align: center;
+        margin: auto;
+        border-collapse: collapse;
+        border: 4px solid rgb(255, 255, 255);
+    }
+
+    thead {
+        background-color: rgb(0, 81, 255);
+        color: antiquewhite;
+        height: 40px;
+    }
+
+    tbody {
+        /* height: 100px; */
+        background-color: rgb(169, 196, 255);
+    }
+
+    button {
+        border: 1px solid aqua;
+        border-radius: 5px;
+        padding: 5px;
+        text-align: center;
+        color: rgb(143, 143, 143);
+        margin: 10px;
+    }
+
+    button:hover {
+        background-color: aqua;
+        color: rgb(0, 0, 0);
+    }
+
+    .jiajian {
+        width: 30px;
+    }
+
+    h3 {
+        text-align: center;
+    }
+</style>
+
+<body>
+    <div class="box">
+        <table border="4">
+            <h2 style="text-align: center;">商品<button>添加商品</button></h2>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>商品</th>
+                    <th>单价（元）</th>
+                    <th>颜色</th>
+                    <th>库存</th>
+                    <th>好评率</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="shangpinbiao">
+            </tbody>
+        </table>
+        <table border="4">
+            <h2 style="text-align: center;">购物车</h2>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>商品</th>
+                    <th>单价（元）</th>
+                    <th>数量</th>
+                    <th>金额</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="gwc">
+            </tbody>
+        </table>
+        <h3>总计：<b>0</b>$</h3>
+    </div>
+    <script>
+        // 商品表
+        let data = [
+            {
+                id: 123,
+                name: "AR15",
+                price: 200,
+                color: "黑色",
+                ku: "10",
+                pin: "95%"
+            },
+            {
+                id: 124,
+                name: "AR30",
+                price: 230,
+                color: "黑色",
+                ku: "10",
+                pin: "95%"
+            },
+            {
+                id: 125,
+                name: "AR57",
+                price: 210,
+                color: "黑色",
+                ku: "10",
+                pin: "95%"
+            },
+        ]
+        // 购物车
+        let daer = [
+        ]
+        // 页面加载
+        window.onload = function () {
+            xuanran()
+            gouwuche()
+            pricefun()
+        }
+        // 添加到购物车
+        const shangpinbiao = document.getElementById('shangpinbiao')
+        shangpinbiao.addEventListener("click", shangpinbiaofun)
+        const gwc = document.getElementById('gwc')
+        gwc.addEventListener('click', gwcfun)
+        function shangpinbiaofun() {
+            if (event.target.tagName === "BUTTON" && event.target.innerText === "加入购物车") {
+                jiaru(event.target.dataset.index);
+            }
+        }
+        // 数量加减
+        function gwcfun() {
+            if (event.target.tagName === "BUTTON" && event.target.innerText === "+") {
+                shuliangjia(event.target.dataset.index);
+            }
+            if (event.target.innerText === "-") {
+                shuliangjian(event.target.dataset.index);
+            }
+            if (event.target.innerText === "移除购物车") {
+                yichu(event.target.dataset.index);
+            }
+        }
+        // 总价
+        function pricefun() {
+            let wer = daer.reduce((ku, item) => {
+                return ku + item.ku * item.price
+            }, 0)
+            document.querySelector('b').innerHTML = wer
+        }
+        // 移除购物车
+        function yichu(index) {
+            let ku = daer[index].ku;
+            let id = daer[index].id;
+
+            // 找到要删除的数据在数组中的索引
+            let dataerIndex = daer.findIndex((item) => item.id === id);
+
+            // 更新库存
+            daer[dataerIndex].ku += daer[index].ku;
+
+            // 从数组中删除指定索引的数据
+            daer.splice(index, 1);
+
+            // 重新渲染和更新购物车
+            xuanran();
+            gouwuche();
+        }
+        // 购物车数量--
+        function shuliangjian(index) {
+            console.log(daer[index]);
+            let id = daer[index].id
+            let dataer = daer.findIndex((item) => {
+                return item.id == id
+            })
+            if (dataer == -1) {
+                alert("没有")
+                return
+            } else {
+                if (daer[dataer].ku < 2) {
+                    alert("上好的绿豆买些吧")
+                    return
+                } else {
+                    data[dataer].ku++
+                    daer[index].ku--
+                    xuanran()
+                    gouwuche()
+
+                }
+            }
+        }
+        // 购物车数量++
+        function shuliangjia(index) {
+            console.log(daer[index]);
+            let id = daer[index].id
+            let dataer = daer.findIndex((item) => {
+                return item.id == id
+            })
+            if (data[dataer].ku < 1) {
+                alert("库存不足")
+                return
+            } else {
+                if (daer[dataer].ku < 1) {
+                    alert("库存不足")
+                    return
+                } else {
+                    data[dataer].ku--
+                    daer[index].ku++
+                    xuanran()
+                    gouwuche()
+
+                }
+            }
+        }
+        // 加入购物车
+        function jiaru(index) {
+            console.log(data[index]);
+            // 判断库存
+            if (data[index].ku < 1) {
+                alert("库存不足")
+                return
+            }
+            // 减去库存
+            data[index].ku--
+            let dataer = daer.findIndex((item) => {
+                return item.id == data[index].id
+            })
+            // 判断是否有这个商品
+            if (dataer == -1) {
+                let gwcdata = {
+                    id: data[index].id,
+                    name: data[index].name,
+                    price: data[index].price,
+                    ku: 1
+                }
+                daer.push(gwcdata)
+            } else {
+                daer[dataer].ku++
+            }
+            xuanran()
+            gouwuche()
+
+        }
+        // 渲染商品
+        function xuanran() {
+            html = ""
+            data.forEach((item, index) => {
+                html += `
+                <tr>
+                    <td>${index}</td>
+                    <td>${item.name}</td>
+                    <td>${item.price}$</td>
+                    <td>${item.color}</td>
+                    <td>${item.ku}</td>
+                    <td>${item.pin}</td>
+                    <td><button data-index="${index}">加入购物车</button></td>
+                </tr>`
+            });
+            document.querySelector("tbody").innerHTML = html
+        }
+        // 购物车
+        function gouwuche() {
+            htmlc = ""
+            daer.forEach((item, index) => {
+                htmlc += `
+                <tr>
+                    <td>${index}</td>
+                    <th>${item.name}</th>
+                    <th>${item.price}$</th>
+                    <th> <button class="jiajian" data-index="${index}">+</button>
+                        ${item.ku}
+                    <button class="jiajian" data-index="${index}">-</button></th>
+                    <th>${item.ku * item.price}$</th>
+                    <th><button  data-index="${index}">移除购物车</button></th>
+                </tr>`
+            });
+            document.getElementById("gwc").innerHTML = htmlc
+            pricefun()
+        }
+    </script>
+</body>
+
+</html>

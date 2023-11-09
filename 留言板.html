@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>留言板</title>
+    <style>
+        li {
+            list-style: none;
+        }
+
+        .message-board {
+            width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #727272;
+            border-radius: 5px;
+        }
+
+        .nickname-input {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+        .message-input {
+            width: 100%;
+            height: 100px;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+        .publish-button {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        .publish-button:hover {
+            background-color: #2980b9;
+        }
+
+        .message-display {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .yh {
+            background-color: #7ecbff;
+            border-radius: 10px;
+            padding: 5px;
+            margin: 5px;
+        }
+
+        .time {
+            color: rgb(0, 0, 0);
+            font-size: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="message-board">
+        <h2>留言板</h2>
+        <input type="text" class="nickname-input" placeholder="昵称" id="name">
+        <input type="text" class="nickname-input" placeholder="主题" id="title">
+        <textarea class="message-input" placeholder="留言内容" id="content"></textarea>
+        <button class="publish-button" id="fabu">发布</button>
+        <div class="message-display" id="dianjishanchu">
+
+        </div>
+    </div>
+    <script>
+        // 找到按钮添加点击
+        const fabu = document.getElementById('fabu')
+        fabu.addEventListener("click", fabufun)
+        // 找到输入框
+        const name = document.getElementById('name')
+        const title = document.getElementById('title')
+        const content = document.getElementById('content')
+        // 删除
+        const dianjishanchu = document.getElementById('dianjishanchu')
+        dianjishanchu.addEventListener('click', dianjishanchufun)
+        window.onload = function () {
+            xuanran()
+        }
+
+        // 点击添加
+        function fabufun() {
+            let data = {
+                name: name.value,
+                title: title.value,
+                content: content.value
+            }
+            console.log(data);
+            let xrt = new XMLHttpRequest()
+            xrt.open('POST', `https://liu.zzgoodqc.cn/lyb/add`)
+            xrt.setRequestHeader("Content-Type", "application/json");
+            xrt.send(JSON.stringify(data))
+            xrt.onload = function () {
+                var responseData = JSON.parse(xrt.responseText);
+                console.log(responseData);
+                xuanran()
+            }
+        }
+        // 删除
+        function dianjishanchufun() {
+            if (event.target.tagName === "BUTTON" && event.target.innerText === "删除") {
+                var id = event.target.dataset.id;
+                console.log(id);
+                var xll = new XMLHttpRequest();
+                xll.open("GET", `https://liu.zzgoodqc.cn/lyb/del?id=${id}`);
+                xll.send();
+                xll.onload = function () {
+                    var responseData = JSON.parse(xll.responseText);
+                    console.log(responseData);
+                    xuanran()
+                };
+            }
+        }
+        // 渲染
+        function xuanran() {
+            let xhr = new XMLHttpRequest()
+            html = ""
+            xhr.open('GET', `https://liu.zzgoodqc.cn/lyb/list`)
+            xhr.send()
+            xhr.onload = function () {
+                let ser = JSON.parse(xhr.responseText).data
+                console.log(ser);
+                ser.forEach((item) => {
+                    html += `
+                    <div class="yh" >
+                        <p>&emsp;ID: ${item.id}</p>
+                        <p>&emsp;昵称：${item.name}</p>
+                        <p>&emsp;主题：${item.title}</p>
+                        <p>&emsp;内容：${item.content}</p>
+                        <p class="time">&emsp;发布于 ：${item.created_at}</p>
+                        <p class="time">&emsp;更新于 ：${item.updated_at}</p>
+                        <p><button class="publish-button" data-id="${item.id}">删除</button></p>
+                    </div>`
+                    document.querySelector('.message-display').innerHTML = html;
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>

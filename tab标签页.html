@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .box {
+        width: 1000px;
+        height: 400px;
+        margin: auto;
+        /* background-color: antiquewhite; */
+    }
+
+    .left {
+        width: 250px;
+        height: 290px;
+        /* background-color: aqua; */
+        float: left;
+    }
+
+    .biao {
+        width: 250px;
+        height: 110px;
+        text-align: center;
+        color: aliceblue;
+        background-color: rgb(94, 158, 255);
+        line-height: 100px;
+        margin-top: 20px;
+    }
+
+    .hua {
+        width: 250px;
+        height: 57.5px;
+        text-align: center;
+        line-height: 60px;
+
+    }
+
+    .hua:hover {
+        background-color: rgb(94, 158, 255);
+        color: aliceblue;
+    }
+
+    .shangpin {
+        width: 750px;
+        height: 400px;
+        float: right;
+        margin-top: -110px;
+        display: none;
+        /* background-color: antiquewhite; */
+    }
+
+    .biiv {
+        width: 750px;
+        height: 400px;
+        float: right;
+    }
+
+    .shangpin.active {
+        display: block;
+    }
+
+    .image {
+        width: 230px;
+        height: 140px;
+    }
+
+    .img p {
+        width: 230px;
+        /* height: 100px; */
+        text-align: center;
+        line-height: 30px;
+        background-color: #f0f0f0;
+    }
+
+    .img {
+        width: 230px;
+        height: 180px;
+        /* background-color: antiquewhite; */
+        float: left;
+        margin: 10px;
+    }
+</style>
+
+<body>
+    <div class="box">
+        <div class="biao">
+            <h2>-漂泊系列-</h2>
+        </div>
+        <div class="left">
+            <div class="hua">商品1</div>
+            <div class="hua">商品2</div>
+            <div class="hua">商品3</div>
+            <div class="hua">商品4</div>
+            <div class="hua">商品5</div>
+        </div>
+        <div class="biiv">
+            <div class="shangpin">
+                <div class="img">
+                    <img src="https://img0.baidu.com/it/u=3573388584,877211770&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=500"
+                        class="image">
+                    <p>商品1</p>
+                </div>
+                <div class="img">
+                    <img src="https://b0.bdstatic.com/608c61afe184aa4093a5ff95a0181b50.jpg@h_1280" class="image">
+                    <p>商品2</p>
+                </div>
+                <div class="img">
+                    <img src="https://img1.baidu.com/it/u=1277702147,223589064&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=500"
+                        class="image">
+                    <p>商品3</p>
+                </div>
+                <div class="img">
+                    <img src="https://img0.baidu.com/it/u=1961953862,2525199064&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=500"
+                        class="image">
+                    <p>商品4</p>
+                </div>
+                <div class="img">
+                    <img src="https://p2.itc.cn/images01/20220428/4ec6ee88a8634cadb859b83632f4da66.png" class="image">
+                    <p>商品5</p>
+                </div>
+                <div class="img">
+                    <img src="https://img1.baidu.com/it/u=559645936,2108196303&fm=253&fmt=auto&app=120&f=JPEG?w=889&h=500"
+                        class="image">
+                    <p>商品6</p>
+                </div>
+            </div>
+            <div class="shangpin">
+                <div class="img">
+                    <img src="https://img1.baidu.com/it/u=1749041487,728521301&fm=253&fmt=auto?w=640&h=320"
+                        class="image">
+                    <p>商品1</p>
+                </div>
+                <div class="img">
+                    <img src="https://img1.baidu.com/it/u=258887765,838532803&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=500"
+                        class="image">
+                    <p>商品2</p>
+                </div>
+                <div class="img">
+                    <img src="https://img0.baidu.com/it/u=3280925038,1520918952&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=500"
+                        class="image">
+                    <p>商品3</p>
+                </div>
+                <div class="img">
+                    <img src="https://img2.baidu.com/it/u=127297503,1157770108&fm=253&fmt=auto&app=120&f=JPEG?w=801&h=500"
+                        class="image">
+                    <p>商品4</p>
+                </div>
+                <div class="img">
+                    <img src="https://img1.baidu.com/it/u=594464074,356048015&fm=253&fmt=auto&app=138&f=JPEG?w=870&h=492"
+                        class="image">
+                    <p>商品5</p>
+                </div>
+                <div class="img">
+                    <img src="https://img0.baidu.com/it/u=411666351,1174753820&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=281"
+                        class="image">
+                    <p>商品6</p>
+                </div>
+            </div>
+            <div class="shangpin">
+                <div class="img">
+                    <img src="https://img2.baidu.com/it/u=1356937117,1698323973&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=500"
+                        class="image">
+                    <p>商品1</p>
+                </div>
+                <div class="img">
+                    <img src="https://n.sinaimg.cn/sinakd20200727ac/17/w1032h585/20200727/bbfe-iwxpesx1913061.jpg"
+                        class="image">
+                    <p>商品2</p>
+                </div>
+                <div class="img">
+                    <img src="https://img2.baidu.com/it/u=3189306901,1756970676&fm=253&fmt=auto&app=120&f=JPEG?w=640&h=347"
+                        class="image">
+                    <p>商品3</p>
+                </div>
+                <div class="img">
+                    <img src="https://t11.baidu.com/it/u=468651552,206354382&fm=30&app=106&f=JPEG?w=640&h=360&s=29C1326EE55211D40B41958A0300E091"
+                        class="image">
+                    <p>商品4</p>
+                </div>
+                <div class="img">
+                    <img src="https://t11.baidu.com/it/u=3646696019,206354379&fm=30&app=106&f=JPEG?w=640&h=346&s=B487B150462361115A0C80C503009093"
+                        class="image">
+                    <p>商品5</p>
+                </div>
+                <div class="img">
+                    <img src="https://img1.baidu.com/it/u=466280067,3376670307&fm=253&fmt=auto&app=138&f=JPEG?w=885&h=500"
+                        class="image">
+                    <p>商品6</p>
+                </div>
+            </div>
+            <div class="shangpin">
+                <div class="img">
+                    <img src="https://p7.itc.cn/q_70/images03/20220516/6d91f6886821410591e0178623fa9d9a.jpeg"
+                        class="image">
+                    <p>商品1</p>
+                </div>
+                <div class="img">
+                    <img src="https://img1.baidu.com/it/u=3514472911,2496653302&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=500"
+                        class="image">
+                    <p>商品2</p>
+                </div>
+                <div class="img">
+                    <img src="https://img1.baidu.com/it/u=2133165466,4046805387&fm=253&fmt=auto&app=138&f=JPEG?w=982&h=500"
+                        class="image">
+                    <p>商品3</p>
+                </div>
+                <div class="img">
+                    <img src="https://img0.baidu.com/it/u=3931532078,3209264387&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=500"
+                        class="image">
+                    <p>商品4</p>
+                </div>
+                <div class="img">
+                    <img src="https://imgs.91youxi.com/91youxi/images/2020-09-03/5f4fc4f8524b4.jpeg" class="image">
+                    <p>商品5</p>
+                </div>
+                <div class="img">
+                    <img src="https://img1.baidu.com/it/u=2443415096,1634757781&fm=253&fmt=auto&app=138&f=JPEG?w=640&h=325"
+                        class="image">
+                    <p>商品6</p>
+                </div>
+            </div>
+            <div class="shangpin">
+                <div class="img">
+                    <img src="https://img0.baidu.com/it/u=2695777482,2123894063&fm=253&fmt=auto&app=138&f=JPEG?w=640&h=319"
+                        class="image">
+                    <p>商品1</p>
+                </div>
+                <div class="img">
+                    <img src="https://img0.baidu.com/it/u=1326358897,3379164770&fm=253&fmt=auto&app=138&f=PNG?w=906&h=500"
+                        class="image">
+                    <p>商品2</p>
+                </div>
+                <div class="img">
+                    <img src="https://img1.baidu.com/it/u=403813591,867492611&fm=253&fmt=auto&app=138&f=JPEG?w=543&h=264"
+                        class="image">
+                    <p>商品3</p>
+                </div>
+                <div class="img">
+                    <img src="https://img0.baidu.com/it/u=793876844,3773745258&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=281"
+                        class="image">
+                    <p>商品4</p>
+                </div>
+                <div class="img">
+                    <img src="https://img1.baidu.com/it/u=739406225,1112592241&fm=253&fmt=auto&app=120&f=JPEG?w=640&h=360"
+                        class="image">
+                    <p>商品5</p>
+                </div>
+                <div class="img">
+                    <img src="https://img1.baidu.com/it/u=1202263392,1732475705&fm=253&fmt=auto&app=138&f=PNG?w=921&h=500"
+                        class="image">
+                    <p>商品6</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script src="../jquery.min.js"></script>
+    <script>
+        $(function () {
+            let tab = $(".hua")
+            let shangpin = $(".shangpin")
+            tab.first().addClass('active')
+            shangpin.first().addClass('active')
+            tab.hover(function () {
+                var index = $(this).index()
+                tab.removeClass('acytve')
+                shangpin.removeClass('active')
+                shangpin.eq(index).addClass('active')
+            })
+        })
+    </script>
+</body>
+
+</html>

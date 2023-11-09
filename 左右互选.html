@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    li {
+        list-style: none;
+    }
+
+    .box {
+        width: 900px;
+        height: 600px;
+        margin: auto;
+        display: flex;
+    }
+
+    .left {
+        width: 400px;
+        height: 600px;
+        float: left;
+        border: 3px dashed black;
+        overflow-y: auto;
+    }
+
+    .right {
+        width: 400px;
+        height: 600px;
+        float: right;
+        border: 3px dashed black;
+        overflow-y: auto;
+    }
+
+    .anniu {
+        width: 90px;
+        background-color: aqua;
+        height: 200px;
+        margin: auto;
+    }
+
+    .anniu button {
+        width: 90px;
+        height: 100px;
+        font-size: 30px;
+    }
+
+    .left .huche,
+    .right .huche {
+        width: 394px;
+        height: 50px;
+        font-size: 20px;
+    }
+
+    .lei {
+        width: 400px;
+        height: 60px;
+        float: left;
+        background-color: rgb(159, 159, 159);
+    }
+
+    .fuxuan {
+        float: left;
+        width: 30px;
+        height: 30px;
+        margin-top: 15px;
+    }
+
+    .lei h2 {
+        text-align: center;
+        line-height: 20px;
+    }
+
+    .xuan input {
+        width: 20px;
+        height: 20px;
+    }
+
+    .xuan li {
+        font-size: 20px;
+    }
+
+    .ge {
+        width: 400px;
+        height: 50px;
+        float: left;
+        margin-left: -40px;
+        margin-top: 10px;
+        border-bottom: 1px solid gray;
+    }
+
+    .ge input {
+        margin-top: 20px;
+    }
+</style>
+
+<body>
+    <div class="box">
+        <div class="left">
+            <input type="text" placeholder="回车添加" class="huche" id="leftadd">
+            <div class="lei">
+                <input type="checkbox" class="fuxuan" id="quanxuan">
+                <h2>水果</h2>
+            </div>
+            <ul class="xuan" id="xr">
+
+            </ul>
+        </div>
+        <div class="anniu">
+            <button id="zuo">›</button>
+            <button id="you">‹</button>
+        </div>
+        <div class="right">
+            <input type="text" placeholder="回车添加" class="huche" id="rightadd">
+            <div class="lei">
+                <input type="checkbox" class="fuxuan" id="quanxuans">
+                <h2>蔬菜</h2>
+            </div>
+            <ul class="xuan" id="xrs">
+
+            </ul>
+        </div>
+    </div>
+    <script src="../jquery.min.js"></script>
+    <script>
+        let leftdata = [
+            {
+                name: "苹果",
+                status: false
+            },
+            {
+                name: "香蕉",
+                status: false
+            },
+            {
+                name: "葡萄",
+                status: false
+            },
+            {
+                name: "西瓜",
+                status: false
+            },
+            {
+                name: "橘子",
+                status: false
+            },
+        ]
+        let rightdata = [
+            {
+                name: "番茄",
+                status: false,
+            },
+            {
+                name: "土豆",
+                status: false,
+            },
+            {
+                name: "西兰花",
+                status: false,
+            },
+            {
+                name: "洋芋",
+                status: false,
+            },
+            {
+                name: "马铃薯",
+                status: false,
+            },
+        ]
+        $(function () {
+            leftxuanran()
+            rightxuanran()
+            $("#leftadd").on('keydown', leftaddfun)
+            $("#rightadd").on('keydown', rightaddfun)
+            // 左边复选框改变事件
+            $('#xrs div li').on('change', leftChangeStatus)
+            $('#xr div li').on('change', rightChangeStatus)
+            // 左全选
+            $('#quanxuan').on('change', leftquanxuanfun)
+            // 右全选
+            $('#quanxuans').on('change', rightquanxuanfun)
+            // 左右互选
+            $("#zuo").click(leftbian)
+            $("#you").click(rightbian)
+        })
+        // 左右互选
+        function leftbian() {
+            let leftbian = leftdata.filter((item) => {
+                return item.status
+            })
+            rightdata = rightdata.concat(leftbian)
+            leftdata = leftdata.filter((item) => {
+                return !item.status
+            })
+            leftxuanran()
+            rightxuanran()
+        }
+        function rightbian() {
+            let rightbian = rightdata.filter((item) => {
+                return item.status
+            })
+            leftdata = leftdata.concat(rightbian)
+            rightdata = rightdata.filter((item) => {
+                return !item.status
+            })
+            leftxuanran()
+            rightxuanran()
+        }
+        // 左
+        function leftChangeStatus() {
+            let checked = $(this).find('input').prop('checked')
+            let index = $(this).data('index')
+            console.log(index);
+            leftdata[index].status = checked
+            checkedleft()
+        }
+        // 右
+        function rightChangeStatus() {
+            let checked = $(this).find('input').prop('checked')
+            let index = $(this).data('index')
+            rightdata[index].status = checked
+            checkedright()
+        }
+
+        function checkedleft() {
+            let checked = leftdata.every((item) => {
+                return item.status
+            })
+            $('#quanxuan').prop('checked', checked)
+        }
+        function checkedright() {
+            let checked = rightdata.every((item) => {
+                return item.status
+            })
+            $('#quanxuans').prop('checked', checked)
+        }
+        // 右全选
+        function rightquanxuanfun() {
+            let checked = $(this).prop('checked')
+            rightdata.forEach((currentitem) => {
+                currentitem.status = checked
+            })
+            rightxuanran()
+        }
+        // 左全选
+        function leftquanxuanfun() {
+            let checked = $(this).prop('checked')
+            leftdata.forEach((currentitem) => {
+                currentitem.status = checked
+            })
+            leftxuanran()
+        }
+        // 左添加
+        function leftaddfun() {
+            if (event.key == 'Enter') {
+                let val = $(this).val()
+                let data = {
+                    id: new Date().getTime(),
+                    name: val,
+                    status: false,
+                }
+                leftdata.push(data)
+                $("#xr").off('change', leftChangeStatus)
+                leftxuanran()
+                $(this).val('')
+            }
+        }
+        // 右添加
+        function rightaddfun() {
+            if (event.key == 'Enter') {
+                let val = $(this).val()
+                let data = {
+                    id: new Date().getTime(),
+                    name: val,
+                    status: false,
+                }
+                rightdata.push(data)
+                $("#xr").off('change', rightChangeStatus)
+                rightxuanran()
+                $(this).val('')
+            }
+        }
+        // 左边渲染
+        function leftxuanran() {
+            let html = ``
+            leftdata.forEach((item, index) => {
+                html += `
+                <div class="ge"><li data-index='${index}'><input type="checkbox" class='item-checkbox'  data-index="${index}" ${item.status ? 'checked' : ''}>&emsp;${item.name}</li></div>
+            `
+                document.getElementById('xr').innerHTML = html
+                $('#xr div li').on('change', leftChangeStatus)
+            })
+        }
+        // 右边渲染
+        function rightxuanran() {
+            html = ``
+            rightdata.forEach((item, index) => {
+                html += `
+            <div class="ge"><li data-index='${index}'><input type="checkbox" class='item-checkbox' data-index="${index}" ${item.status ? 'checked' : ''}>&emsp;${item.name}</li></div>
+            `
+                document.getElementById('xrs').innerHTML = html
+                $('#xrs div li').on('change', rightChangeStatus)
+            })
+        }
+    </script>
+</body>
+
+</html>

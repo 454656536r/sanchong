@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script src="../jquery.min.js"></script>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .box {
+        width: 100%;
+        height: 100vh;
+        background-color: rgb(140, 255, 114);
+        display: flex;
+    }
+
+    .bix {
+        width: 1000px;
+        height: 500px;
+        background-color: rgb(160, 160, 160);
+        margin: auto;
+        border-radius: 10px;
+        border: 3px solid rgb(255, 255, 255);
+    }
+
+    .an {
+        border: none;
+        width: 70px;
+        height: 70px;
+        margin: 10px;
+        border-radius: 50px;
+        text-align: center;
+        
+    }
+
+    .an:hover {
+        background-color: rgb(90, 175, 255);
+        
+    }
+    a {
+        text-decoration: none;
+        color: blue;
+    }
+    a:hover{
+        color: aliceblue;
+    }
+</style>
+
+<body>
+    <div class="box">
+        <div class="bix" id="ru">
+
+        </div>
+    </div>
+    <script>
+       data = [
+            {
+                url: "./购物车.html",
+                name: "购物车"
+            },
+            {
+                url: "./tab标签页.html",
+                name: "tab标签页"
+            },
+            {
+                url: "./左右互选.html",
+                name: "左右互选"
+            },
+            {
+                url: "./表格增删改查jquer.html",
+                name: "增删改查"
+            },
+            {
+                url: "./留言板.html",
+                name: "留言板"
+            },
+        ]
+        $(function () {
+            xuanran()
+        })
+        function xuanran() {
+            html = ''
+            data.forEach((item) => {
+                html += `
+                <button class="an"><a href='${item.url}'>${item.name}</a></button>
+                `
+                
+            })
+            $('#ru').append(html)
+        }
+    </script>
+</body>
+
+</html>
