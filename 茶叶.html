@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>茶叶信息表</title>
+    <script src="./jquery.min.js"></script>
+    <style>
+        table {
+            width: 90%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin: auto;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tbody {
+            text-align: center;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        #myModal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #myModal1 {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 点击按钮时显示弹窗 */
+        #openBtn {
+            cursor: pointer;
+        }
+
+        .anniu {
+            border: none;
+            width: 50px;
+            height: 30px;
+            border-radius: 10px;
+        }
+
+        .anniu:hover,
+        .ansou:hover,
+        .ssfun:hover {
+            background-color: rgb(83, 189, 255);
+            color: #ffffff;
+        }
+
+        .ansou {
+            border: none;
+            width: 100px;
+            height: 30px;
+            border-radius: 10px;
+        }
+
+        .popup1 {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .popup1-content {
+            width: 250px;
+            /* height: 300px; */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border: 2px solid #000000;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .popup-content {
+            width: 250px;
+            /* height: 300px; */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border: 2px solid #000000;
+        }
+
+        .close {
+            float: right;
+            font-size: 20px;
+        }
+
+        .sousuo {
+            width: 1315px;
+            height: 50px;
+            /* background-color: #ff4242; */
+            margin: auto;
+        }
+
+        .soufun {
+            width: 300px;
+            height: 45px;
+            font-size: 20px;
+        }
+
+        .ssfun {
+            width: 100px;
+            height: 50px;
+            border: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>茶叶信息表&emsp;<button class="ansou" id="addtian">添加</button></h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>茶叶名称</th>
+                <th>茶叶类型</th>
+                <th>茶叶价格</th>
+                <th>茶叶库存</th>
+                <th>茶叶描述</th>
+                <th>创建时间</th>
+                <th>更新时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <span class="close" id="closeButton">×</span>
+            <div class="biaodan">
+                <h2>添加</h2>
+                <p>名称: <input type="text" id="names"></p>
+                <p>类型: <input type="text" id="type"></p>
+                <p>价格: <input type="text" id="price"></p>
+                <p>库存: <input type="text" id="stock"></p>
+                <p>描述: <input type="text" id="description"></p>
+                <button id="baocun">保存</button>
+            </div>
+        </div>
+    </div>
+    <div id="popup1" class="popup1">
+        <div class="popup1-content">
+            <span class="close" id="closeButtonc">×</span>
+            <div class="biaodan">
+                <h2>编辑-- <b></b></h2>
+                <p>名称: <input type="text" id="names-bian"></p>
+                <p>类型: <input type="text" id="type-bian"></p>
+                <p>价格: <input type="text" id="price-bian"></p>
+                <p>库存: <input type="text" id="stock-bian"></p>
+                <p>描述: <input type="text" id="description-bian"></p>
+                <button id="baocunq">保存</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            xuanran()
+        })
+        let index;
+        // 查看
+        $(document).on('click', 'button#kan', function () {
+            putID = event.target.dataset.id;
+            $.ajax({
+                url: "https://liu.zzgoodqc.cn/teas/" + putID,
+                type: "get",
+                dataType: "json",
+                success: function (data) {
+                    $("#names").val(data.data.name);
+                    $("#type").val(data.data.type);
+                    $("#price").val(data.data.price);
+                    $("#stock").val(data.data.stock);
+                    $("#description").val(data.data.description);
+                    popup.style.display = (popup.style.display === "block") ? "none" : "block";
+                    $("#closeButtonc").on("click", function () {
+                        popup.style.display = "none";
+                    });
+                    xuanran();
+                },
+            });
+        })
+        // 编辑
+        $(document).on('click', 'button#bian', function () {
+            popup1.style.display = (popup1.style.display === "block") ? "none" : "block";
+            $("#closeButtonc").on("click", function () {
+                popup1.style.display = "none";
+            });
+            index = $(event.target).data('id');
+            console.log(index);
+            $("b").html(index)
+            $.ajax({
+                url: "https://liu.zzgoodqc.cn/teas/" + index,
+                type: "get",
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    $("#names-bian").val(data.data.name)
+                    $("#type-bian").val(data.data.type)
+                    $("#price-bian").val(data.data.price)
+                    $("#stock-bian").val(data.data.stock)
+                    $("#description-bian").val(data.data.description)
+                }
+            })
+            $("#baocunq").click(function () {
+                let updata = {
+                    name: $("#names-bian").val(),
+                    type: $("#type-bian").val(),
+                    price: $("#price-bian").val(),
+                    stock: $("#stock-bian").val(),
+                    description: $("#description-bian").val()
+                }
+                let indess = $("b").html()
+                $.ajax({
+                    url: "https://liu.zzgoodqc.cn/teas/" + indess,
+                    type: "put",
+                    dataType: "json",
+                    data: updata,
+                    success: function (res) {
+                        console.log(res);
+                        xuanran()
+                    }
+                })
+
+            })
+        })
+        // 删除
+        $(document).on('click', "button#shan", function () {
+            var teaId = $(this).data('id');
+            console.log(teaId);
+            $.ajax({
+                url: "https://liu.zzgoodqc.cn/teas/" + teaId,
+                type: "DELETE",
+                dataType: "json",
+                success: function () {
+                    xuanran()
+                }
+            });
+        });
+        // 创建新项目
+        $("#baocun").click(function () {
+            var teaData = {
+                name: $("#names").val(),
+                type: $("#type").val(),
+                price: $("#type").val(),
+                stock: $("#stock").val(),
+                description: $("#description").val(),
+            };
+            $.ajax({
+                url: "https://liu.zzgoodqc.cn/teas",
+                type: "POST",
+                dataType: "json",
+                data: teaData,
+                success: function (data) {
+                    console.log(teaData);
+                    xuanran()
+                }
+            })
+        })
+        // 获取列表
+        function xuanran() {
+            let html = "";
+            $.ajax({
+                url: "https://liu.zzgoodqc.cn/teas",
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    var res = data
+                    res.data.forEach((item, index) => {
+                        html += `
+                        <tr>
+                            <td>${item.id}</td>
+                            <td>${item.name}</td>
+                            <td>${item.type}</td>
+                            <td>$${item.price}</td>
+                            <td>${item.stock}</td>
+                            <td>${item.description}</td>
+                            <td>${item.created_at}</td>
+                            <td>${item.updated_at}</td>
+                            <td><button class="anniu" id="shan"  data-id="${item.id}">删除</button> <button id="bian" class="anniu"  data-id="${item.id}">编辑</button> <button id="kan" class="anniu"  data-id="${item.id}">查看</button></td>
+                        </tr>`;
+                    });
+                    $("tbody").html(html);
+                }
+            });
+        };
+        // 弹窗
+        const addtian = document.getElementById('addtian')
+        addtian.addEventListener('click', addtianfun)
+        const closeButton = document.getElementById('closeButton')
+        closeButton.addEventListener('click', closeButtonfun)
+        function addtianfun() {
+            popup.style.display = (popup.style.display === "block") ? "none" : "block";
+        }
+        function closeButtonfun() {
+            popup.style.display = "none"
+        }
+    </script>
+</body>
+
+</html>
